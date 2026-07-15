@@ -1,0 +1,131 @@
+* {
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+
+body {
+
+background:#050816;
+color:white;
+
+}
+
+
+.navbar {
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 8%;
+
+}
+
+
+.logo {
+
+font-size:22px;
+font-weight:bold;
+
+}
+
+
+.btn,
+.primary-btn {
+
+background:#2563eb;
+padding:14px 28px;
+border-radius:10px;
+color:white;
+text-decoration:none;
+
+}
+
+
+.hero {
+
+min-height:80vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+
+}
+
+
+.hero-content {
+
+max-width:900px;
+
+}
+
+
+.hero h1 {
+
+font-size:70px;
+line-height:1.1;
+background:linear-gradient(
+90deg,
+#60a5fa,
+#facc15
+);
+
+-webkit-background-clip:text;
+color:transparent;
+
+}
+
+
+.hero p {
+
+font-size:22px;
+margin:30px 0;
+color:#cbd5e1;
+
+}
+
+
+
+.platforms,
+.how {
+
+padding:80px 8%;
+text-align:center;
+
+}
+
+
+
+.cards,
+.steps {
+
+display:flex;
+gap:25px;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:40px;
+
+}
+
+
+
+.card,
+.steps div {
+
+background:#111827;
+padding:30px;
+border-radius:20px;
+width:220px;
+
+}
+
+
+
+footer {
+
+text-align:center;
+padding:40px;
+
+}
