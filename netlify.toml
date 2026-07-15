@@ -1,0 +1,36 @@
+# =====================================================
+# Content Intelligence AI
+# Netlify Configuration
+# Version: 1.0
+# =====================================================
+
+
+[build]
+
+# Static website files
+
+publish = "."
+
+
+# Serverless functions directory
+
+functions = "netlify/functions"
+
+
+
+[functions]
+
+
+# Node.js runtime
+
+node_bundler = "esbuild"
+
+
+
+[dev]
+
+# Local development settings
+
+publish = "."
+
+functions = "netlify/functions"
