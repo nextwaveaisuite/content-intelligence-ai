@@ -1,8 +1,8 @@
 /*
 =========================================================
 Content Intelligence AI
-Premium SaaS UI Styling
-Version: 1.1
+Premium SaaS Dashboard UI
+Version: 2.0
 =========================================================
 */
 
@@ -14,14 +14,9 @@ Version: 1.1
 }
 
 
-html{
-    scroll-behavior:smooth;
-}
-
-
 body{
 
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',Arial,sans-serif;
 
     background:#050816;
 
@@ -34,7 +29,7 @@ body{
 
 .container{
 
-    width:min(1200px,92%);
+    width:min(1250px,92%);
 
     margin:auto;
 
@@ -42,31 +37,29 @@ body{
 
 
 
-/* =====================================================
+/* =========================
 HEADER
-===================================================== */
+========================= */
 
 
 header{
+
+    background:#070b18;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
 
     position:sticky;
 
     top:0;
 
-    z-index:100;
-
-    background:rgba(5,8,22,0.92);
-
-    backdrop-filter:blur(15px);
-
-    border-bottom:1px solid rgba(255,255,255,.08);
+    z-index:10;
 
 }
 
 
 .nav{
 
-    min-height:80px;
+    height:80px;
 
     display:flex;
 
@@ -79,11 +72,9 @@ header{
 
 .logo{
 
-    font-size:26px;
+    font-size:24px;
 
     font-weight:800;
-
-    letter-spacing:-.5px;
 
 }
 
@@ -92,9 +83,7 @@ nav{
 
     display:flex;
 
-    align-items:center;
-
-    gap:32px;
+    gap:30px;
 
 }
 
@@ -107,42 +96,191 @@ nav a{
 
     font-size:15px;
 
-    transition:.3s;
-
 }
 
 
 nav a:hover{
 
-    color:#ffffff;
+    color:white;
 
 }
 
 
 
-/* =====================================================
+/* =========================
+SECTION
+========================= */
+
+
+.section{
+
+    padding:70px 0;
+
+}
+
+
+.section h2{
+
+    font-size:38px;
+
+    margin-bottom:35px;
+
+}
+
+
+
+/* =========================
+DASHBOARD
+========================= */
+
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:420px 1fr;
+
+    gap:35px;
+
+    align-items:start;
+
+}
+
+
+
+/* INPUT PANEL */
+
+
+.dashboard-panel{
+
+    background:#0f172a;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    padding:35px;
+
+    position:sticky;
+
+    top:100px;
+
+}
+
+
+
+.dashboard-panel h3{
+
+    margin-top:30px;
+
+}
+
+
+
+
+
+label{
+
+    display:block;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#cbd5e1;
+
+    margin-bottom:8px;
+
+    margin-top:20px;
+
+}
+
+
+
+input,
+textarea,
+select{
+
+    width:100%;
+
+    background:#020617;
+
+    color:white;
+
+    border:1px solid #334155;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    font-size:15px;
+
+}
+
+
+textarea{
+
+    min-height:170px;
+
+}
+
+
+
+
+
+/* PLATFORM SELECTOR */
+
+
+.platform-selector{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+
+    margin-top:15px;
+
+}
+
+
+.platform-selector label{
+
+    margin:0;
+
+    padding:12px;
+
+    background:#020617;
+
+    border-radius:12px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    cursor:pointer;
+
+}
+
+
+
+
+/* =========================
 BUTTONS
-===================================================== */
+========================= */
 
 
-.primary-button,
-.nav-button{
+.primary-button{
 
-    display:inline-flex;
+    margin-top:30px;
 
-    align-items:center;
+    width:100%;
 
-    justify-content:center;
+    padding:16px;
 
     background:#2563eb;
 
     color:white;
 
-    text-decoration:none;
-
     border:none;
-
-    padding:16px 32px;
 
     border-radius:14px;
 
@@ -155,386 +293,99 @@ BUTTONS
 }
 
 
-.primary-button:hover,
-.nav-button:hover{
+.primary-button:hover{
 
     background:#1d4ed8;
 
-    transform:translateY(-2px);
-
 }
 
 
 
-/* =====================================================
-HERO
-===================================================== */
 
 
-.hero{
+.copy-button{
 
-    min-height:85vh;
+    background:#1e40af;
 
-    display:flex;
-
-    align-items:center;
-
-    text-align:center;
-
-    background:
-
-    radial-gradient(circle at top,#2563eb35,transparent 45%);
-
-}
-
-
-.hero h1{
-
-    font-size:76px;
-
-    line-height:1.05;
-
-    letter-spacing:-3px;
-
-    margin-bottom:30px;
-
-    background:linear-gradient(
-    90deg,
-    #60a5fa,
-    #facc15
-    );
-
-    -webkit-background-clip:text;
-
-    color:transparent;
-
-}
-
-
-.hero p{
-
-    max-width:760px;
-
-    margin:0 auto 45px;
-
-    font-size:22px;
-
-    color:#cbd5e1;
-
-}
-
-
-.hero-buttons{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:20px;
-
-}
-
-
-
-/* =====================================================
-SECTIONS
-===================================================== */
-
-
-.section{
-
-    padding:110px 0;
-
-}
-
-
-.section h2{
-
-    text-align:center;
-
-    font-size:46px;
-
-    margin-bottom:70px;
-
-    letter-spacing:-1px;
-
-}
-
-
-.dark{
-
-    background:#0b1222;
-
-}
-
-
-
-/* =====================================================
-CARDS
-===================================================== */
-
-
-.grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
-    gap:28px;
-
-}
-
-
-.card{
-
-    min-height:230px;
-
-    padding:35px;
-
-    background:#101827;
-
-    border-radius:22px;
-
-    border:1px solid rgba(255,255,255,.07);
-
-}
-
-
-.card h3{
-
-    font-size:24px;
-
-    margin-bottom:15px;
-
-}
-
-
-.card p{
-
-    color:#94a3b8;
-
-}
-
-
-
-/* =====================================================
-PLATFORM GRID
-===================================================== */
-
-
-.platform-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
-    gap:22px;
-
-}
-
-
-.platform{
-
-    height:100px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:#101827;
-
-    border-radius:18px;
-
-    font-size:18px;
-
-    font-weight:600;
-
-    border:1px solid rgba(255,255,255,.06);
-
-    transition:.3s;
-
-}
-
-
-.platform:hover{
-
-    background:#2563eb;
-
-}
-
-
-
-/* =====================================================
-STEPS
-===================================================== */
-
-
-.steps{
-
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
-    gap:30px;
-
-}
-
-
-.step{
-
-    text-align:center;
-
-}
-
-
-.step span{
-
-    width:75px;
-
-    height:75px;
-
-    margin:auto auto 20px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    border-radius:50%;
-
-    background:#2563eb;
-
-    font-size:30px;
-
-    font-weight:800;
-
-}
-
-
-
-/* =====================================================
-DASHBOARD
-===================================================== */
-
-
-.dashboard-grid{
-
-    display:grid;
-
-    grid-template-columns:480px 1fr;
-
-    gap:40px;
-
-    align-items:start;
-
-}
-
-
-
-.dashboard-panel,
-.dashboard-results{
-
-    background:#101827;
-
-    padding:35px;
-
-    border-radius:24px;
-
-    border:1px solid rgba(255,255,255,.07);
-
-}
-
-
-
-label{
-
-    display:block;
-
-    margin-bottom:10px;
-
-    margin-top:20px;
-
-    font-weight:600;
-
-}
-
-
-input,
-textarea,
-select{
-
-    width:100%;
-
-    background:#050816;
+    border:none;
 
     color:white;
 
-    border:1px solid #334155;
-
-    padding:16px;
-
-    border-radius:14px;
-
-    font-size:15px;
-
-}
-
-
-textarea{
-
-    min-height:180px;
-
-    resize:vertical;
-
-}
-
-
-.platform-selector{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:15px;
-
-    margin:20px 0;
-
-}
-
-
-.platform-selector label{
-
-    margin:0;
-
-    background:#050816;
-
-    padding:15px;
+    padding:10px 18px;
 
     border-radius:12px;
 
+    cursor:pointer;
+
+    font-weight:600;
+
 }
 
 
 
-/* =====================================================
-RESULT CARDS
-===================================================== */
+.copy-button:hover{
+
+    background:#2563eb;
+
+}
+
+
+
+/* =========================
+RESULT AREA
+========================= */
+
+
+.dashboard-results{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+}
+
+
 
 
 .result-card{
 
-    background:#050816;
+    background:#0f172a;
 
-    border-radius:18px;
+    border:1px solid rgba(255,255,255,.08);
 
-    padding:25px;
+    border-radius:24px;
 
-    margin-bottom:25px;
+    padding:35px;
+
+    animation:fadeIn .3s ease;
 
 }
+
+
+
+@keyframes fadeIn{
+
+from{
+
+opacity:0;
+
+transform:translateY(10px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:none;
+
+}
+
+}
+
+
 
 
 .result-header{
@@ -545,39 +396,61 @@ RESULT CARDS
 
     align-items:center;
 
-    margin-bottom:20px;
+    padding-bottom:20px;
+
+    margin-bottom:25px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
 
 }
 
 
-.copy-button{
 
-    background:#2563eb;
+.result-header h2{
 
-    border:none;
+    margin:0;
 
-    color:white;
+    font-size:26px;
 
-    padding:10px 20px;
-
-    border-radius:10px;
-
-    cursor:pointer;
+    letter-spacing:.5px;
 
 }
+
+
+
 
 
 .generated-content{
 
-    color:#cbd5e1;
+    color:#e2e8f0;
+
+    font-size:16px;
+
+    line-height:1.8;
 
 }
 
 
 
-/* =====================================================
+.generated-content strong{
+
+    display:inline-block;
+
+    margin-top:20px;
+
+    color:#60a5fa;
+
+    font-size:17px;
+
+}
+
+
+
+
+
+/* =========================
 PRICING
-===================================================== */
+========================= */
 
 
 .pricing-grid{
@@ -593,30 +466,19 @@ PRICING
 
 .price-card{
 
-    background:#101827;
+    background:#0f172a;
 
-    padding:45px;
+    padding:35px;
 
     border-radius:24px;
 
-    text-align:center;
-
-}
-
-
-.featured{
-
-    border:2px solid #2563eb;
-
-    transform:scale(1.04);
-
 }
 
 
 
-/* =====================================================
+/* =========================
 AUTH
-===================================================== */
+========================= */
 
 
 .auth-card{
@@ -625,9 +487,9 @@ AUTH
 
     margin:auto;
 
-    background:#101827;
+    background:#0f172a;
 
-    padding:45px;
+    padding:40px;
 
     border-radius:24px;
 
@@ -635,40 +497,14 @@ AUTH
 
 
 
-/* =====================================================
-FOOTER
-===================================================== */
 
 
-.footer{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    padding:40px 0;
-
-    color:#94a3b8;
-
-}
-
-
-
-/* =====================================================
+/* =========================
 RESPONSIVE
-===================================================== */
+========================= */
 
 
 @media(max-width:1000px){
-
-.grid,
-.platform-grid,
-.steps,
-.pricing-grid{
-
-grid-template-columns:1fr 1fr;
-
-}
 
 
 .dashboard-grid{
@@ -678,17 +514,27 @@ grid-template-columns:1fr;
 }
 
 
-.hero h1{
+.dashboard-panel{
 
-font-size:52px;
+position:relative;
+
+top:0;
 
 }
 
-}
 
+
+}
 
 
 @media(max-width:600px){
+
+
+.platform-selector{
+
+grid-template-columns:1fr;
+
+}
 
 
 nav{
@@ -698,27 +544,22 @@ display:none;
 }
 
 
-.grid,
-.platform-grid,
-.steps,
-.pricing-grid{
+.result-card{
 
-grid-template-columns:1fr;
+padding:22px;
 
 }
 
 
-.hero h1{
+.result-header{
 
-font-size:42px;
+flex-direction:column;
 
-}
+align-items:flex-start;
 
-
-.section{
-
-padding:70px 0;
+gap:15px;
 
 }
+
 
 }
