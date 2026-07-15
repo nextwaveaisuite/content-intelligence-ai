@@ -1,14 +1,22 @@
 /*
 =========================================================
 Content Intelligence AI
-Dashboard AI Connector
-Version: 2.0
+Dashboard Engine
+Version: 3.0
+
+Features:
+- OpenAI connection
+- Platform result separation
+- Clean AI formatting
+- Individual copy buttons
 =========================================================
 */
 
 
 const generateButton = document.getElementById("generateButton");
+
 const results = document.getElementById("results");
+
 
 
 generateButton.addEventListener("click", async function(){
@@ -23,14 +31,15 @@ generateButton.addEventListener("click", async function(){
     const tone = document.getElementById("tone").value;
 
 
+
     const platforms = [];
 
 
     document
     .querySelectorAll(".platform-selector input:checked")
-    .forEach(item=>{
+    .forEach(platform => {
 
-        platforms.push(item.value);
+        platforms.push(platform.value);
 
     });
 
@@ -50,11 +59,10 @@ generateButton.addEventListener("click", async function(){
 
     <div class="result-card">
 
-        <h2>Generating AI Content...</h2>
+        <h2>Creating Content...</h2>
 
         <p>
-        Creating platform-specific content.
-        Please wait...
+        AI is adapting your idea for each platform.
         </p>
 
     </div>
@@ -67,9 +75,7 @@ generateButton.addEventListener("click", async function(){
 
 
         const response = await fetch(
-            
             "/.netlify/functions/generate-content",
-
             {
 
                 method:"POST",
@@ -79,7 +85,6 @@ generateButton.addEventListener("click", async function(){
                     "Content-Type":"application/json"
 
                 },
-
 
                 body:JSON.stringify({
 
@@ -95,10 +100,7 @@ generateButton.addEventListener("click", async function(){
 
                 })
 
-
             }
-
-
         );
 
 
@@ -107,38 +109,22 @@ generateButton.addEventListener("click", async function(){
 
 
 
-        if(data.content){
+        if(!data.content){
 
-
-            displayResults(data.content);
-
-
-        }
-
-        else{
-
-
-            results.innerHTML = `
-
-            <div class="result-card">
-
-            <h2>Error</h2>
-
-            <p>
-
-            ${data.error || "No AI response received"}
-
-            </p>
-
-            </div>
-
-            `;
+            throw new Error(
+                data.error || "No AI content returned"
+            );
 
         }
+
+
+
+        displayPlatformResults(data.content);
 
 
 
     }
+
 
     catch(error){
 
@@ -147,13 +133,9 @@ generateButton.addEventListener("click", async function(){
 
         <div class="result-card">
 
-        <h2>Connection Error</h2>
+        <h2>Error</h2>
 
-        <p>
-
-        ${error.message}
-
-        </p>
+        <p>${error.message}</p>
 
         </div>
 
@@ -170,57 +152,176 @@ generateButton.addEventListener("click", async function(){
 
 
 
-function displayResults(content){
+function displayPlatformResults(content){
 
 
     results.innerHTML = "";
 
 
 
-    const sections = content.split(/\n(?=[A-Z ]+:)/);
+    const cleanedContent = content
+
+    .replace(/^Sure!.*?:/i,"")
+
+    .replace(/^Here.*?:/i,"")
+
+    .trim();
+
+
+
+    const platforms = [
+
+        "Facebook",
+
+        "Instagram",
+
+        "LinkedIn",
+
+        "Pinterest",
+
+        "TikTok",
+
+        "Threads",
+
+        "X",
+
+        "YouTube"
+
+    ];
+
+
+
+    let sections = [];
+
+
+
+    platforms.forEach((platform,index)=>{
+
+
+        const start = cleanedContent.indexOf(
+            platform
+        );
+
+
+        if(start !== -1){
+
+
+            let end = cleanedContent.length;
+
+
+
+            for(
+                let i=index+1;
+                i<platforms.length;
+                i++
+            ){
+
+
+                const next =
+                cleanedContent.indexOf(
+                    platforms[i],
+                    start+1
+                );
+
+
+                if(next !== -1){
+
+                    end = next;
+
+                    break;
+
+                }
+
+            }
+
+
+
+            sections.push({
+
+                title:platform,
+
+                content:
+                cleanedContent
+                .substring(start,end)
+
+                .replace(/^#+/,"")
+
+                .trim()
+
+            });
+
+
+        }
+
+
+    });
+
+
+
+
+    if(sections.length===0){
+
+
+        sections.push({
+
+            title:"Generated Content",
+
+            content:cleanedContent
+
+        });
+
+
+    }
+
 
 
 
     sections.forEach(section=>{
 
 
-        if(section.trim()){
+        const card =
+        document.createElement("div");
 
 
-            const card=document.createElement("div");
+        card.className="result-card";
 
 
-            card.className="result-card";
 
+        card.innerHTML = `
 
-            card.innerHTML = `
+        <div class="result-header">
 
-            <div class="result-header">
 
             <h2>
-            ${section.split("\n")[0]}
+
+            ${section.title}
+
             </h2>
 
+
             <button class="copy-button">
+
             Copy
+
             </button>
 
-            </div>
+
+        </div>
 
 
-            <div class="generated-content">
+        <div class="generated-content">
 
-            ${section.replace(section.split("\n")[0],"")}
+        ${formatText(section.content)}
 
-            </div>
-
-            `;
+        </div>
 
 
-            results.appendChild(card);
+        `;
 
 
-        }
+
+        results.appendChild(card);
+
 
 
     });
@@ -235,6 +336,29 @@ function displayResults(content){
 
 
 
+
+function formatText(text){
+
+
+    return text
+
+    .replace(
+        /\n/g,
+        "<br>"
+    )
+
+    .replace(
+        /\*\*(.*?)\*\*/g,
+        "<strong>$1</strong>"
+    );
+
+
+}
+
+
+
+
+
 function addCopyButtons(){
 
 
@@ -243,39 +367,44 @@ function addCopyButtons(){
     .forEach(button=>{
 
 
-        button.addEventListener("click",()=>{
+        button.addEventListener(
+            "click",
+            function(){
 
 
-            const content = 
-            button
-            .parentElement
-            .nextElementSibling
-            .innerText;
+                const content =
 
-
-
-            navigator.clipboard.writeText(content);
-
-
-
-            button.innerText="Copied!";
-
-
-            setTimeout(()=>{
-
-
-                button.innerText="Copy";
-
-
-            },1500);
+                this
+                .parentElement
+                .nextElementSibling
+                .innerText;
 
 
 
-        });
+                navigator.clipboard.writeText(
+                    content
+                );
+
+
+                this.innerText="Copied!";
+
+
+                setTimeout(()=>{
+
+
+                    this.innerText="Copy";
+
+
+                },1500);
+
+
+
+            }
+
+        );
 
 
     });
-
 
 
 }
