@@ -1,14 +1,15 @@
 /*
 =========================================================
 Content Intelligence AI
-Dashboard Engine
-Version: 3.0
+Dashboard Workspace Engine
+Version: 4.0
 
 Features:
 - OpenAI connection
-- Platform result separation
-- Clean AI formatting
-- Individual copy buttons
+- Full platform output display
+- Keeps Visuals, Hashtags, Scripts, CTAs
+- Copy individual platforms
+- Copy complete campaign
 =========================================================
 */
 
@@ -35,11 +36,12 @@ generateButton.addEventListener("click", async function(){
     const platforms = [];
 
 
+
     document
     .querySelectorAll(".platform-selector input:checked")
-    .forEach(platform => {
+    .forEach(item=>{
 
-        platforms.push(platform.value);
+        platforms.push(item.value);
 
     });
 
@@ -59,10 +61,12 @@ generateButton.addEventListener("click", async function(){
 
     <div class="result-card">
 
-        <h2>Creating Content...</h2>
+        <h2>Creating Campaign...</h2>
 
         <p>
-        AI is adapting your idea for each platform.
+
+        Adapting your content for each platform.
+
         </p>
 
     </div>
@@ -75,7 +79,9 @@ generateButton.addEventListener("click", async function(){
 
 
         const response = await fetch(
+
             "/.netlify/functions/generate-content",
+
             {
 
                 method:"POST",
@@ -101,6 +107,7 @@ generateButton.addEventListener("click", async function(){
                 })
 
             }
+
         );
 
 
@@ -112,14 +119,14 @@ generateButton.addEventListener("click", async function(){
         if(!data.content){
 
             throw new Error(
-                data.error || "No AI content returned"
+                data.error || "No content generated"
             );
 
         }
 
 
 
-        displayPlatformResults(data.content);
+        displayCampaign(data.content);
 
 
 
@@ -145,133 +152,86 @@ generateButton.addEventListener("click", async function(){
     }
 
 
-
 });
 
 
 
 
 
-function displayPlatformResults(content){
+function displayCampaign(content){
 
 
     results.innerHTML = "";
 
 
 
-    const cleanedContent = content
+    const copyAll = document.createElement("button");
 
-    .replace(/^Sure!.*?:/i,"")
 
-    .replace(/^Here.*?:/i,"")
+    copyAll.className="primary-button";
 
-    .trim();
+
+    copyAll.innerText="Copy Entire Campaign";
+
+
+
+    copyAll.onclick=function(){
+
+
+        navigator.clipboard.writeText(content);
+
+
+        copyAll.innerText="Copied!";
+
+
+        setTimeout(()=>{
+
+            copyAll.innerText="Copy Entire Campaign";
+
+        },2000);
+
+
+    };
+
+
+
+    results.appendChild(copyAll);
+
 
 
 
     const platforms = [
 
-        "Facebook",
+        "FACEBOOK",
 
-        "Instagram",
+        "INSTAGRAM",
 
-        "LinkedIn",
+        "LINKEDIN",
 
-        "Pinterest",
+        "PINTEREST",
 
-        "TikTok",
+        "TIKTOK",
 
-        "Threads",
+        "THREADS",
 
         "X",
 
-        "YouTube"
+        "YOUTUBE"
 
     ];
 
 
 
-    let sections = [];
 
 
+    let sections = splitPlatforms(
 
-    platforms.forEach((platform,index)=>{
+        content,
 
+        platforms
 
-        const start = cleanedContent.indexOf(
-            platform
-        );
+    );
 
-
-        if(start !== -1){
-
-
-            let end = cleanedContent.length;
-
-
-
-            for(
-                let i=index+1;
-                i<platforms.length;
-                i++
-            ){
-
-
-                const next =
-                cleanedContent.indexOf(
-                    platforms[i],
-                    start+1
-                );
-
-
-                if(next !== -1){
-
-                    end = next;
-
-                    break;
-
-                }
-
-            }
-
-
-
-            sections.push({
-
-                title:platform,
-
-                content:
-                cleanedContent
-                .substring(start,end)
-
-                .replace(/^#+/,"")
-
-                .trim()
-
-            });
-
-
-        }
-
-
-    });
-
-
-
-
-    if(sections.length===0){
-
-
-        sections.push({
-
-            title:"Generated Content",
-
-            content:cleanedContent
-
-        });
-
-
-    }
 
 
 
@@ -279,8 +239,7 @@ function displayPlatformResults(content){
     sections.forEach(section=>{
 
 
-        const card =
-        document.createElement("div");
+        const card=document.createElement("div");
 
 
         card.className="result-card";
@@ -288,6 +247,7 @@ function displayPlatformResults(content){
 
 
         card.innerHTML = `
+
 
         <div class="result-header">
 
@@ -301,7 +261,7 @@ function displayPlatformResults(content){
 
             <button class="copy-button">
 
-            Copy
+            Copy ${section.title}
 
             </button>
 
@@ -311,7 +271,7 @@ function displayPlatformResults(content){
 
         <div class="generated-content">
 
-        ${formatText(section.content)}
+        ${formatContent(section.content)}
 
         </div>
 
@@ -328,7 +288,9 @@ function displayPlatformResults(content){
 
 
 
+
     addCopyButtons();
+
 
 
 }
@@ -337,7 +299,98 @@ function displayPlatformResults(content){
 
 
 
-function formatText(text){
+
+
+function splitPlatforms(content, platforms){
+
+
+    let sections=[];
+
+
+
+    platforms.forEach((platform,index)=>{
+
+
+        const start =
+        content.toUpperCase()
+        .indexOf(platform);
+
+
+
+        if(start === -1){
+
+            return;
+
+        }
+
+
+
+        let end=content.length;
+
+
+
+        for(
+            let i=index+1;
+            i<platforms.length;
+            i++
+        ){
+
+
+            const next =
+
+            content
+            .toUpperCase()
+            .indexOf(
+                platforms[i],
+                start+1
+            );
+
+
+
+            if(next !== -1){
+
+                end=next;
+
+                break;
+
+            }
+
+
+        }
+
+
+
+        sections.push({
+
+
+            title:platform,
+
+            content:
+
+            content
+            .substring(start,end)
+            .trim()
+
+
+        });
+
+
+
+    });
+
+
+
+    return sections;
+
+
+}
+
+
+
+
+
+
+function formatContent(text){
 
 
     return text
@@ -350,10 +403,17 @@ function formatText(text){
     .replace(
         /\*\*(.*?)\*\*/g,
         "<strong>$1</strong>"
+    )
+
+    .replace(
+        /_(.*?)_/g,
+        "<em>$1</em>"
     );
 
 
 }
+
+
 
 
 
@@ -367,41 +427,38 @@ function addCopyButtons(){
     .forEach(button=>{
 
 
-        button.addEventListener(
-            "click",
-            function(){
+        button.onclick=function(){
 
 
-                const content =
+            const content =
 
-                this
-                .parentElement
-                .nextElementSibling
-                .innerText;
-
-
-
-                navigator.clipboard.writeText(
-                    content
-                );
-
-
-                this.innerText="Copied!";
-
-
-                setTimeout(()=>{
-
-
-                    this.innerText="Copy";
-
-
-                },1500);
+            this
+            .parentElement
+            .nextElementSibling
+            .innerText;
 
 
 
-            }
+            navigator.clipboard.writeText(content);
 
-        );
+
+
+            this.innerText="Copied!";
+
+
+            setTimeout(()=>{
+
+
+                this.innerText=
+                this.innerText
+                .replace("Copied!","Copy");
+
+
+            },1500);
+
+
+
+        };
 
 
     });
