@@ -2,12 +2,12 @@
 =========================================================
 Content Intelligence AI
 Dashboard Engine
-Version: 3.0
+Version: 5.0
 
 Handles:
-- Campaign generation
-- Platform content rendering
-- Copy entire campaign
+- AI campaign generation
+- Platform result cards
+- Copy functions
 =========================================================
 */
 
@@ -25,17 +25,36 @@ const copyCampaignButton = document.getElementById("copyCampaign");
 generateButton.addEventListener("click", async function(){
 
 
-    const topic = document.getElementById("topic").value;
 
-    const audience = document.getElementById("audience").value;
+    const brand =
+    document.getElementById("brand").value;
 
-    const goal = document.getElementById("goal").value;
 
-    const tone = document.getElementById("tone").value;
 
-    const brand = document.getElementById("brand").value;
+    const topic =
+    document.getElementById("topic").value;
 
-    const contentType = document.getElementById("contentType").value;
+
+
+    const audience =
+    document.getElementById("audience").value;
+
+
+
+    const goal =
+    document.getElementById("goal").value;
+
+
+
+    const tone =
+    document.getElementById("tone").value;
+
+
+
+    const contentType =
+    document.getElementById("contentType").value;
+
+
 
 
 
@@ -45,17 +64,24 @@ generateButton.addEventListener("click", async function(){
             ".platform-selector input:checked"
         )
 
-    ).map(platform => platform.value);
+    ).map(item => item.value);
 
 
 
 
 
-    if(!topic){
 
-        alert("Please enter a content idea.");
+
+    if(!topic.trim()){
+
+
+        alert(
+            "Please enter a content idea."
+        );
+
 
         return;
+
 
     }
 
@@ -63,9 +89,13 @@ generateButton.addEventListener("click", async function(){
 
 
 
-    generateButton.innerText = "Generating Campaign...";
 
     generateButton.disabled = true;
+
+
+    generateButton.innerText =
+    "Creating Campaign...";
+
 
 
 
@@ -74,9 +104,13 @@ generateButton.addEventListener("click", async function(){
 
         <div class="placeholder">
 
-            <h3>Creating your campaign...</h3>
+            <h3>
+            Creating your AI campaign...
+            </h3>
 
-            <p>Optimising content for each platform.</p>
+            <p>
+            Optimising content for each platform.
+            </p>
 
         </div>
 
@@ -86,26 +120,34 @@ generateButton.addEventListener("click", async function(){
 
 
 
-    try {
+
+
+    try{
 
 
 
         const response = await fetch(
-            
+
             "/.netlify/functions/generate-content",
 
             {
 
+
                 method:"POST",
+
 
                 headers:{
 
-                    "Content-Type":"application/json"
+
+                    "Content-Type":
+                    "application/json"
+
 
                 },
 
 
                 body:JSON.stringify({
+
 
                     brand,
 
@@ -121,9 +163,12 @@ generateButton.addEventListener("click", async function(){
 
                     platforms
 
+
                 })
 
+
             }
+
 
         );
 
@@ -131,7 +176,13 @@ generateButton.addEventListener("click", async function(){
 
 
 
-        const data = await response.json();
+
+
+
+        const data =
+        await response.json();
+
+
 
 
 
@@ -141,7 +192,10 @@ generateButton.addEventListener("click", async function(){
 
 
             throw new Error(
-                data.error || "No AI response received"
+
+                data.error ||
+                "AI generation failed"
+
             );
 
 
@@ -151,7 +205,10 @@ generateButton.addEventListener("click", async function(){
 
 
 
-        renderCampaign(data.content);
+
+        displayCampaign(
+            data.content
+        );
 
 
 
@@ -159,19 +216,28 @@ generateButton.addEventListener("click", async function(){
 
     }
 
-
     catch(error){
+
 
 
         resultsContainer.innerHTML = `
 
+
         <div class="placeholder">
 
-            <h3>Error</h3>
 
-            <p>${error.message}</p>
+            <h3>
+            Error
+            </h3>
+
+
+            <p>
+            ${error.message}
+            </p>
+
 
         </div>
+
 
         `;
 
@@ -181,15 +247,19 @@ generateButton.addEventListener("click", async function(){
 
 
 
+
     finally{
 
 
-        generateButton.innerText = "Generate Campaign";
+        generateButton.disabled=false;
 
-        generateButton.disabled = false;
+
+        generateButton.innerText =
+        "Generate Campaign";
 
 
     }
+
 
 
 
@@ -202,26 +272,38 @@ generateButton.addEventListener("click", async function(){
 
 
 
-function renderCampaign(content){
-
-
-    const sections = splitPlatforms(content);
+function displayCampaign(content){
 
 
 
-    resultsContainer.innerHTML = "";
+    const sections =
+    splitContent(content);
 
 
 
 
-    Object.keys(sections).forEach(platform => {
+    resultsContainer.innerHTML="";
 
 
 
-        const card = document.createElement("div");
 
 
-        card.className = "result-card";
+    Object.entries(sections).forEach(
+        
+        ([platform,text])=>{
+
+
+
+        const card =
+        document.createElement("div");
+
+
+
+        card.className =
+        "result-card";
+
+
+
 
 
 
@@ -231,12 +313,14 @@ function renderCampaign(content){
         <div class="result-header">
 
 
-            <h2>${platform}</h2>
+            <h3>
+            ${platform}
+            </h3>
 
 
             <button class="copy-button">
 
-                Copy ${platform}
+            Copy ${platform}
 
             </button>
 
@@ -244,10 +328,9 @@ function renderCampaign(content){
         </div>
 
 
-
         <div class="generated-content">
 
-            ${sections[platform]}
+        ${formatText(text)}
 
         </div>
 
@@ -258,30 +341,37 @@ function renderCampaign(content){
 
 
 
-        const copyButton = card.querySelector(".copy-button");
 
 
 
-        copyButton.addEventListener(
-            
+        const button =
+        card.querySelector(
+            ".copy-button"
+        );
+
+
+
+        button.addEventListener(
             "click",
 
-            ()=>{
+            function(){
 
 
                 navigator.clipboard.writeText(
-
-                    sections[platform]
-
+                    text
                 );
 
 
-                copyButton.innerText="Copied!";
+                button.innerText =
+                "Copied!";
 
 
                 setTimeout(()=>{
 
-                    copyButton.innerText=`Copy ${platform}`;
+
+                    button.innerText =
+                    `Copy ${platform}`;
+
 
                 },1500);
 
@@ -289,7 +379,9 @@ function renderCampaign(content){
 
             }
 
+
         );
+
 
 
 
@@ -302,7 +394,6 @@ function renderCampaign(content){
     });
 
 
-
 }
 
 
@@ -312,10 +403,12 @@ function renderCampaign(content){
 
 
 
-function splitPlatforms(content){
+function splitContent(content){
 
 
-    const platforms = [
+
+    const platforms=[
+
 
         "FACEBOOK",
 
@@ -333,43 +426,55 @@ function splitPlatforms(content){
 
         "YOUTUBE"
 
+
     ];
 
 
 
 
-    const output = {};
+
+    const sections={};
 
 
 
-    let current = null;
+    let current=null;
 
 
 
-    content
-    .split("\n")
-    .forEach(line=>{
-
-
-        const clean = line.trim();
 
 
 
-        const match = platforms.find(
+    content.split("\n").forEach(line=>{
 
-            platform => clean.toUpperCase() === platform
+
+
+        const clean =
+        line.trim();
+
+
+
+
+
+        const found =
+        platforms.find(
+
+            platform =>
+            clean.toUpperCase()
+            === platform
 
         );
 
 
 
 
-        if(match){
+
+        if(found){
 
 
-            current = match;
+            current=found;
 
-            output[current]="";
+
+            sections[current]="";
 
 
         }
@@ -378,10 +483,12 @@ function splitPlatforms(content){
         else if(current){
 
 
-            output[current] += line + "\n";
+            sections[current]
+            += line + "\n";
 
 
         }
+
 
 
 
@@ -390,21 +497,49 @@ function splitPlatforms(content){
 
 
 
-    if(Object.keys(output).length === 0){
 
 
-        output["CAMPAIGN"] = content;
+
+    if(
+        Object.keys(sections).length===0
+    ){
+
+
+        sections["CAMPAIGN"] =
+        content;
 
 
     }
 
 
 
-    return output;
 
+
+    return sections;
 
 
 }
+
+
+
+
+
+
+
+
+function formatText(text){
+
+
+    return text
+
+    .replace(
+        /\n/g,
+        "<br>"
+    );
+
+
+}
+
 
 
 
@@ -414,36 +549,50 @@ function splitPlatforms(content){
 
 
 copyCampaignButton.addEventListener(
+    
+    "click",
 
-"click",
-
-()=>{
-
-
-    const text = document.querySelector(
-        "#results"
-    ).innerText;
+    function(){
 
 
 
-    navigator.clipboard.writeText(text);
+        const content =
+        document.getElementById(
+            "results"
+        ).innerText;
 
 
 
-    copyCampaignButton.innerText="Copied!";
+
+
+        navigator.clipboard.writeText(
+            content
+        );
 
 
 
-    setTimeout(()=>{
 
 
-        copyCampaignButton.innerText="Copy Entire Campaign";
-
-
-    },1500);
+        copyCampaignButton.innerText =
+        "Copied!";
 
 
 
-}
+
+
+        setTimeout(()=>{
+
+
+            copyCampaignButton.innerText =
+            "Copy Entire Campaign";
+
+
+        },1500);
+
+
+
+
+
+    }
 
 );
