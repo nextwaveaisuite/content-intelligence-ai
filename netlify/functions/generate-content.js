@@ -2,25 +2,16 @@
 =========================================================
 Content Intelligence AI
 AI Content Generation Engine
-Version: 3.0
+Version: 5.0
 
 Purpose:
-Creates platform-native social media campaigns.
-
-Platforms:
-Facebook
-Instagram
-LinkedIn
-Pinterest
-TikTok
-Threads
-X
-YouTube
+Creates complete platform-native marketing campaigns.
 =========================================================
 */
 
 
 exports.handler = async function(event) {
+
 
 
     if(event.httpMethod !== "POST"){
@@ -43,7 +34,9 @@ exports.handler = async function(event) {
 
 
 
-    try {
+
+
+    try{
 
 
 
@@ -71,44 +64,49 @@ exports.handler = async function(event) {
 
 
 
+
+
         const prompt = `
 
 
 You are Content Intelligence AI.
 
-You are an expert social media strategist,
-brand strategist, copywriter and platform growth specialist.
+You are an elite social media marketing strategist,
+brand copywriter and content strategist.
 
 
-Your job:
+Your task:
 
-Create a complete social media campaign from one idea.
+Create a complete marketing campaign from one idea.
 
-Every platform must receive content specifically designed for that platform.
+Every platform must receive unique content
+created specifically for that platform.
 
-Never copy the same message between platforms.
 
-Adapt:
 
-- Writing style
-- Length
-- Audience behaviour
-- Engagement style
-- Hashtag strategy
-- Visual direction
-- Call to action
+IMPORTANT RULES:
+
+
+- Do not explain your process.
+- Do not say "Sure".
+- Do not say "Here is".
+- Do not mention AI.
+- Do not use placeholders.
+- Do not create fake links.
+- Do not repeat content between platforms.
+- Write ready-to-publish content.
+- Include emotional hooks.
+- Include visual direction.
+- Include relevant hashtags.
+- Match the platform culture.
+
+
 
 
 
 BRAND:
 
-${brand || "Not provided"}
-
-
-
-CONTENT TYPE:
-
-${contentType}
+${brand}
 
 
 
@@ -124,7 +122,7 @@ ${audience}
 
 
 
-GOAL:
+CAMPAIGN GOAL:
 
 ${goal}
 
@@ -136,6 +134,12 @@ ${tone}
 
 
 
+CONTENT TYPE:
+
+${contentType}
+
+
+
 PLATFORMS:
 
 ${platforms.join(", ")}
@@ -144,71 +148,71 @@ ${platforms.join(", ")}
 
 
 
-IMPORTANT RULES:
-
-- Do not say "Here is your content".
-- Do not explain your process.
-- Do not mention AI.
-- Do not use fake URLs.
-- Do not use placeholders.
-- Do not repeat content.
-- Create publish-ready content.
+RETURN EXACTLY THIS STRUCTURE:
 
 
-
-RETURN EXACTLY THIS FORMAT:
 
 
 
 FACEBOOK
 
+
 Post:
 
-Write the complete Facebook post.
+Create a complete Facebook post.
 
 Visual:
 
-Describe the image or video.
+Describe the recommended image/video.
 
 Hashtags:
 
-Provide hashtags.
+Provide relevant hashtags.
+
+
 
 
 
 INSTAGRAM
 
+
 Caption:
 
-Write Instagram caption.
+Create an engaging Instagram caption.
 
 Visual:
 
-Describe carousel, reel or image.
+Describe carousel/photo/video direction.
 
 Hashtags:
 
-Provide hashtags.
+Provide relevant hashtags.
+
+
 
 
 
 LINKEDIN
 
+
 Post:
 
-Write professional LinkedIn content.
+Create a professional LinkedIn post.
 
 Visual:
 
-Describe professional visual.
+Describe professional visual direction.
 
 Hashtags:
 
-Provide hashtags.
+Provide relevant hashtags.
+
+
 
 
 
 PINTEREST
+
 
 Title:
 
@@ -216,67 +220,86 @@ Create SEO-friendly Pinterest title.
 
 Description:
 
-Create Pinterest description.
+Create Pinterest search-optimised description.
 
 Keywords:
 
-Provide search keywords.
+Provide Pinterest keywords.
+
+
 
 
 
 TIKTOK
 
+
 Hook:
 
-Create first 3 second hook.
+Create a powerful first 3-second hook.
+
 
 Script:
 
-Create full video script.
+Create complete short-form video script.
+
 
 Visual:
 
-Describe scenes.
+Describe video scenes.
+
 
 CTA:
 
-Create call to action.
+Create call-to-action.
+
+
 
 
 
 THREADS
 
+
 Post:
 
-Create conversational Threads post.
+Create conversational community-focused post.
+
 
 Hashtags:
 
-Provide hashtags.
+Provide relevant hashtags.
+
+
 
 
 
 X
 
+
 Post:
 
-Create concise X post.
+Create concise X post under platform limits.
+
 
 Hashtags:
 
-Provide hashtags.
+Provide relevant hashtags.
+
+
 
 
 
 YOUTUBE
 
+
 Title:
 
-Create video title.
+Create YouTube video title.
+
 
 Description:
 
 Create YouTube description.
+
 
 Outline:
 
@@ -288,11 +311,9 @@ Create video structure.
 
 Only return the campaign structure.
 
-
-
-
-
 `;
+
+
 
 
 
@@ -301,7 +322,9 @@ Only return the campaign structure.
 
         const response = await fetch(
 
+
             "https://api.openai.com/v1/chat/completions",
+
 
             {
 
@@ -312,7 +335,10 @@ Only return the campaign structure.
                 headers:{
 
 
-                    "Content-Type":"application/json",
+                    "Content-Type":
+
+                    "application/json",
+
 
 
                     "Authorization":
@@ -323,13 +349,17 @@ Only return the campaign structure.
                 },
 
 
+
                 body:JSON.stringify({
+
 
 
                     model:"gpt-4.1-mini",
 
 
+
                     messages:[
+
 
 
                         {
@@ -340,11 +370,11 @@ Only return the campaign structure.
 
                             content:
 
-                            "You are an expert platform-specific content strategist."
-
+                            "You create premium platform-specific marketing campaigns."
 
 
                         },
+
 
 
                         {
@@ -359,11 +389,13 @@ Only return the campaign structure.
                         }
 
 
+
                     ],
 
 
 
-                    temperature:0.75
+                    temperature:0.8
+
 
 
                 })
@@ -371,7 +403,6 @@ Only return the campaign structure.
 
 
             }
-
 
 
         );
@@ -382,7 +413,12 @@ Only return the campaign structure.
 
 
 
-        const data = await response.json();
+
+        const data =
+        await response.json();
+
+
+
 
 
 
@@ -402,7 +438,7 @@ Only return the campaign structure.
                 body:JSON.stringify({
 
 
-                    error:"AI generation failed",
+                    error:"AI response failed",
 
 
                     details:data
@@ -414,8 +450,10 @@ Only return the campaign structure.
             };
 
 
-
         }
+
+
+
 
 
 
@@ -431,7 +469,9 @@ Only return the campaign structure.
             headers:{
 
 
-                "Content-Type":"application/json"
+                "Content-Type":
+
+                "application/json"
 
 
             },
@@ -442,14 +482,16 @@ Only return the campaign structure.
 
                 content:
 
-                data.choices[0].message.content
+                data.choices[0]
+                .message
+                .content
 
 
             })
 
 
-        };
 
+        };
 
 
 
