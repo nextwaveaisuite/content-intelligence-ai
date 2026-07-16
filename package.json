@@ -1,24 +1,16 @@
 {
   "name": "content-intelligence-ai",
-  "version": "1.0.0",
-  "description": "AI-powered platform-specific content generation system.",
-  "main": "index.js",
+  "version": "5.0.0",
+  "description": "AI powered platform-specific content generation system",
+  "type": "module",
   "scripts": {
-    "start": "netlify dev",
-    "dev": "netlify dev"
+    "dev": "netlify dev",
+    "build": "echo Build complete"
   },
   "dependencies": {
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "netlify-cli": "^19.0.0"
-  },
-  "keywords": [
-    "AI",
-    "content-generator",
-    "social-media",
-    "marketing",
-    "OpenAI"
-  ],
-  "license": "MIT"
+    "netlify-cli": "^20.0.0"
+  }
 }
