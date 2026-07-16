@@ -1,18 +1,6 @@
-# =====================================================
-# Content Intelligence AI
-# Netlify Configuration
-# Version: 1.0
-# =====================================================
-
-
 [build]
 
-# Static website files
-
 publish = "."
-
-
-# Serverless functions directory
 
 functions = "netlify/functions"
 
@@ -20,17 +8,24 @@ functions = "netlify/functions"
 
 [functions]
 
-
-# Node.js runtime
-
 node_bundler = "esbuild"
 
 
 
-[dev]
+[[redirects]]
 
-# Local development settings
+from = "/dashboard"
 
-publish = "."
+to = "/dashboard.html"
 
-functions = "netlify/functions"
+status = 200
+
+
+
+[[redirects]]
+
+from = "/"
+
+to = "/index.html"
+
+status = 200
