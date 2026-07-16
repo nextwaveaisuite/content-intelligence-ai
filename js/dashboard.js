@@ -1,44 +1,53 @@
 /*
 =========================================================
 Content Intelligence AI
-Smart Content Renderer
-Version: 5.0
+Dashboard Engine
+Version: 3.0
 
-Purpose:
-Cleanly displays AI-generated platform campaigns.
+Handles:
+- Campaign generation
+- Platform content rendering
+- Copy entire campaign
 =========================================================
 */
 
 
 const generateButton = document.getElementById("generateButton");
 
-const results = document.getElementById("results");
+const resultsContainer = document.getElementById("results");
+
+const copyCampaignButton = document.getElementById("copyCampaign");
+
+
 
 
 
 generateButton.addEventListener("click", async function(){
 
 
-    const topic = document.getElementById("topic").value.trim();
+    const topic = document.getElementById("topic").value;
 
-    const audience = document.getElementById("audience").value.trim();
+    const audience = document.getElementById("audience").value;
 
     const goal = document.getElementById("goal").value;
 
     const tone = document.getElementById("tone").value;
 
+    const brand = document.getElementById("brand").value;
+
+    const contentType = document.getElementById("contentType").value;
 
 
-    const platforms = [];
+
+    const platforms = Array.from(
+
+        document.querySelectorAll(
+            ".platform-selector input:checked"
+        )
+
+    ).map(platform => platform.value);
 
 
-    document
-    .querySelectorAll(".platform-selector input:checked")
-    .forEach(item => {
-
-        platforms.push(item.value);
-
-    });
 
 
 
@@ -52,29 +61,37 @@ generateButton.addEventListener("click", async function(){
 
 
 
-    results.innerHTML = `
 
-    <div class="result-card">
 
-        <h2>Generating Campaign...</h2>
+    generateButton.innerText = "Generating Campaign...";
 
-        <p>
+    generateButton.disabled = true;
 
-        Creating platform-specific content.
 
-        </p>
 
-    </div>
+
+    resultsContainer.innerHTML = `
+
+        <div class="placeholder">
+
+            <h3>Creating your campaign...</h3>
+
+            <p>Optimising content for each platform.</p>
+
+        </div>
 
     `;
 
 
 
-    try{
+
+
+    try {
+
 
 
         const response = await fetch(
-
+            
             "/.netlify/functions/generate-content",
 
             {
@@ -87,7 +104,10 @@ generateButton.addEventListener("click", async function(){
 
                 },
 
+
                 body:JSON.stringify({
+
+                    brand,
 
                     topic,
 
@@ -96,6 +116,8 @@ generateButton.addEventListener("click", async function(){
                     goal,
 
                     tone,
+
+                    contentType,
 
                     platforms
 
@@ -107,23 +129,31 @@ generateButton.addEventListener("click", async function(){
 
 
 
+
+
         const data = await response.json();
+
+
 
 
 
         if(!data.content){
 
+
             throw new Error(
-
-                data.error || "No content returned"
-
+                data.error || "No AI response received"
             );
+
 
         }
 
 
 
+
+
         renderCampaign(data.content);
+
+
 
 
 
@@ -133,23 +163,34 @@ generateButton.addEventListener("click", async function(){
     catch(error){
 
 
-        results.innerHTML = `
+        resultsContainer.innerHTML = `
 
-        <div class="result-card">
+        <div class="placeholder">
 
-        <h2>Error</h2>
+            <h3>Error</h3>
 
-        <p>
-
-        ${error.message}
-
-        </p>
+            <p>${error.message}</p>
 
         </div>
 
         `;
 
+
     }
+
+
+
+
+    finally{
+
+
+        generateButton.innerText = "Generate Campaign";
+
+        generateButton.disabled = false;
+
+
+    }
+
 
 
 });
@@ -160,60 +201,27 @@ generateButton.addEventListener("click", async function(){
 
 
 
+
 function renderCampaign(content){
 
 
-    results.innerHTML = "";
+    const sections = splitPlatforms(content);
 
 
 
-    const copyAll=document.createElement("button");
-
-
-    copyAll.className="primary-button";
-
-
-    copyAll.innerText="Copy Entire Campaign";
-
-
-
-    copyAll.onclick=function(){
-
-
-        navigator.clipboard.writeText(content);
-
-
-        copyAll.innerText="Copied!";
-
-
-        setTimeout(()=>{
-
-            copyAll.innerText="Copy Entire Campaign";
-
-        },1500);
-
-
-    };
-
-
-
-    results.appendChild(copyAll);
+    resultsContainer.innerHTML = "";
 
 
 
 
-    const sections = extractPlatforms(content);
+    Object.keys(sections).forEach(platform => {
 
 
 
-
-    sections.forEach(section=>{
-
-
-        const card=document.createElement("div");
+        const card = document.createElement("div");
 
 
-        card.className="result-card";
+        card.className = "result-card";
 
 
 
@@ -223,16 +231,12 @@ function renderCampaign(content){
         <div class="result-header">
 
 
-            <h2>
-
-            ${section.title}
-
-            </h2>
+            <h2>${platform}</h2>
 
 
             <button class="copy-button">
 
-            Copy ${section.title}
+                Copy ${platform}
 
             </button>
 
@@ -243,7 +247,7 @@ function renderCampaign(content){
 
         <div class="generated-content">
 
-        ${formatOutput(section.content)}
+            ${sections[platform]}
 
         </div>
 
@@ -252,15 +256,51 @@ function renderCampaign(content){
 
 
 
-        results.appendChild(card);
+
+
+        const copyButton = card.querySelector(".copy-button");
+
+
+
+        copyButton.addEventListener(
+            
+            "click",
+
+            ()=>{
+
+
+                navigator.clipboard.writeText(
+
+                    sections[platform]
+
+                );
+
+
+                copyButton.innerText="Copied!";
+
+
+                setTimeout(()=>{
+
+                    copyButton.innerText=`Copy ${platform}`;
+
+                },1500);
+
+
+
+            }
+
+        );
+
+
+
+
+
+        resultsContainer.appendChild(card);
 
 
 
     });
 
-
-
-    activateCopy();
 
 
 }
@@ -272,76 +312,76 @@ function renderCampaign(content){
 
 
 
-function extractPlatforms(content){
+function splitPlatforms(content){
 
 
-    const names=[
+    const platforms = [
 
         "FACEBOOK",
+
         "INSTAGRAM",
+
         "LINKEDIN",
+
         "PINTEREST",
+
         "TIKTOK",
+
         "THREADS",
+
         "X",
+
         "YOUTUBE"
 
     ];
 
 
 
-    const regex = new RegExp(
 
-        "^(" + names.join("|") + ")\\s*$",
-
-        "gmi"
-
-    );
+    const output = {};
 
 
 
-    const matches=[...content.matchAll(regex)];
+    let current = null;
 
 
 
-    let sections=[];
+    content
+    .split("\n")
+    .forEach(line=>{
+
+
+        const clean = line.trim();
 
 
 
-    matches.forEach((match,index)=>{
+        const match = platforms.find(
 
+            platform => clean.toUpperCase() === platform
 
-        const title=match[1];
-
-
-        const start=match.index + match[0].length;
-
-
-        const end =
-
-        matches[index+1]
-
-        ? matches[index+1].index
-
-        : content.length;
+        );
 
 
 
-        const body = content
 
-        .substring(start,end)
-
-        .trim();
+        if(match){
 
 
+            current = match;
 
-        sections.push({
+            output[current]="";
 
-            title:title,
 
-            content:body
+        }
 
-        });
+
+        else if(current){
+
+
+            output[current] += line + "\n";
+
+
+        }
 
 
 
@@ -349,7 +389,19 @@ function extractPlatforms(content){
 
 
 
-    return sections;
+
+    if(Object.keys(output).length === 0){
+
+
+        output["CAMPAIGN"] = content;
+
+
+    }
+
+
+
+    return output;
+
 
 
 }
@@ -361,100 +413,37 @@ function extractPlatforms(content){
 
 
 
-function formatOutput(text){
+copyCampaignButton.addEventListener(
+
+"click",
+
+()=>{
 
 
-    return text
+    const text = document.querySelector(
+        "#results"
+    ).innerText;
 
-    .replace(
 
-        /\n/g,
 
-        "<br>"
+    navigator.clipboard.writeText(text);
 
-    )
 
-    .replace(
 
-        /\*\*(.*?)\*\*/g,
+    copyCampaignButton.innerText="Copied!";
 
-        "<strong>$1</strong>"
 
-    )
 
-    .replace(
+    setTimeout(()=>{
 
-        /_(.*?)_/g,
 
-        "<strong>$1</strong>"
+        copyCampaignButton.innerText="Copy Entire Campaign";
 
-    );
+
+    },1500);
+
 
 
 }
 
-
-
-
-
-
-
-
-function activateCopy(){
-
-
-    document
-
-    .querySelectorAll(".copy-button")
-
-    .forEach(button=>{
-
-
-        button.onclick=function(){
-
-
-            const text =
-
-            this
-
-            .parentElement
-
-            .nextElementSibling
-
-            .innerText;
-
-
-
-            navigator.clipboard.writeText(text);
-
-
-
-            this.innerText="Copied!";
-
-
-
-            setTimeout(()=>{
-
-
-                this.innerText=
-
-                this.innerText.replace(
-
-                    "Copied!",
-
-                    "Copy"
-
-                );
-
-
-            },1500);
-
-
-
-        };
-
-
-    });
-
-
-}
+);
