@@ -3,237 +3,340 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard | Content Intelligence AI</title>
+<title>AI Content Studio | Content Intelligence AI</title>
 
-    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 </head>
 
+
 <body>
+
 
 <header>
 
-    <div class="container nav">
+<div class="container nav">
 
-        <div class="logo">
+<div class="logo">
+Content Intelligence AI
+</div>
 
-            Content Intelligence AI
 
-        </div>
+<nav>
 
-        <nav>
+<a href="index.html">Home</a>
 
-            <a href="index.html">Home</a>
+<a href="#">Projects</a>
 
-            <a href="#">Projects</a>
+<a href="#">Templates</a>
 
-            <a href="#">Templates</a>
+<a href="#">Account</a>
 
-            <a href="#">Account</a>
+</nav>
 
-        </nav>
-
-    </div>
+</div>
 
 </header>
 
 
 
-<main class="container">
+<main class="dashboard-app">
 
-<section class="section">
+
+<aside class="sidebar">
+
+
+<div class="sidebar-title">
+Workspace
+</div>
+
+
+<a class="active">
+AI Content Studio
+</a>
+
+<a>
+Projects
+</a>
+
+<a>
+Templates
+</a>
+
+<a>
+Brand Profiles
+</a>
+
+<a>
+Settings
+</a>
+
+
+</aside>
+
+
+
+
+
+<section class="dashboard-content">
+
+
+
+<div class="page-heading">
+
+<h1>
+AI Content Studio
+</h1>
+
+<p>
+Create one idea and transform it into platform-specific content.
+</p>
+
+</div>
+
+
+
+
+
+<div class="workspace-grid">
+
+
+
+<div class="generator-panel">
+
+
 
 <h2>
-
-AI Content Studio
-
+Campaign Brief
 </h2>
 
-<div class="dashboard-grid">
 
-<div class="dashboard-panel">
 
 <label>
-
-Content Idea
-
+Brand
 </label>
+
+
+<input
+id="brand"
+type="text"
+placeholder="Example: Unshaken Co."
+>
+
+
+
+<label>
+Content Idea
+</label>
+
 
 <textarea
 id="topic"
 placeholder="Example:
 
-Launching our new Christian hoodie collection.
+Launching our new Christian t-shirt collection.
 
-The message is Stand Firm.
+The message is Man of Faith - Unshaken.
 
-Designed for Christian men wanting to wear their faith."
+Designed for Christian men and women wanting to wear their faith."
 ></textarea>
 
 
 
+
 <label>
-
 Audience
-
 </label>
+
 
 <input
-type="text"
 id="audience"
-placeholder="Christian Men 25-45"
-/>
+type="text"
+placeholder="Christian men and women 25-45"
+>
+
 
 
 
 <label>
-
-Goal
-
+Campaign Goal
 </label>
+
 
 <select id="goal">
 
-<option>Brand Awareness</option>
+<option>
+Brand Awareness
+</option>
 
-<option>Engagement</option>
+<option>
+Engagement
+</option>
 
-<option>Website Traffic</option>
+<option>
+Website Traffic
+</option>
 
-<option>Lead Generation</option>
+<option>
+Sales
+</option>
 
-<option>Sales</option>
+<option>
+Community Growth
+</option>
 
 </select>
+
+
 
 
 
 <label>
-
 Tone
-
 </label>
+
 
 <select id="tone">
 
-<option>Inspirational</option>
 
-<option>Professional</option>
+<option>
+Inspirational
+</option>
 
-<option>Educational</option>
+<option>
+Professional
+</option>
 
-<option>Friendly</option>
+<option>
+Educational
+</option>
 
-<option>Bold</option>
+<option>
+Bold
+</option>
 
-<option>Encouraging</option>
+<option>
+Friendly
+</option>
+
 
 </select>
+
+
+
+
+
+
+<label>
+Content Type
+</label>
+
+
+<select id="contentType">
+
+
+<option>
+Product Launch
+</option>
+
+<option>
+Scripture
+</option>
+
+<option>
+Behind The Brand
+</option>
+
+<option>
+Customer Story
+</option>
+
+<option>
+Promotion
+</option>
+
+<option>
+Video Content
+</option>
+
+
+</select>
+
+
+
 
 
 
 <h3>
-
 Platforms
-
 </h3>
+
+
+
 
 <div class="platform-selector">
 
+
 <label>
-
-<input
-type="checkbox"
-value="Facebook"
-checked>
-
+<input type="checkbox" value="Facebook" checked>
 Facebook
-
 </label>
 
+
 <label>
-
-<input
-type="checkbox"
-value="Instagram"
-checked>
-
+<input type="checkbox" value="Instagram" checked>
 Instagram
-
 </label>
 
+
 <label>
-
-<input
-type="checkbox"
-value="LinkedIn">
-
+<input type="checkbox" value="LinkedIn">
 LinkedIn
-
 </label>
 
+
 <label>
-
-<input
-type="checkbox"
-value="Pinterest">
-
+<input type="checkbox" value="Pinterest">
 Pinterest
-
 </label>
 
+
 <label>
-
-<input
-type="checkbox"
-value="TikTok"
-checked>
-
+<input type="checkbox" value="TikTok" checked>
 TikTok
-
 </label>
 
+
 <label>
-
-<input
-type="checkbox"
-value="Threads">
-
+<input type="checkbox" value="Threads">
 Threads
-
 </label>
 
+
 <label>
-
-<input
-type="checkbox"
-value="X">
-
+<input type="checkbox" value="X">
 X
-
 </label>
+
 
 <label>
-
-<input
-type="checkbox"
-value="YouTube">
-
+<input type="checkbox" value="YouTube">
 YouTube
-
 </label>
+
 
 </div>
+
+
 
 
 
@@ -241,49 +344,93 @@ YouTube
 id="generateButton"
 class="primary-button">
 
-Generate Content
+Generate Campaign
 
 </button>
 
+
+
 </div>
 
 
 
 
 
-<div class="dashboard-results">
+
+
+
+<div class="results-panel">
+
+
+
+<div class="results-toolbar">
+
+
+<h2>
+Campaign Results
+</h2>
+
+
+<button
+id="copyCampaign"
+class="copy-button">
+
+Copy Entire Campaign
+
+</button>
+
+
+</div>
+
+
+
+
 
 <div id="results">
 
+
 <div class="placeholder">
 
+
 <h3>
-
 Your AI content will appear here.
-
 </h3>
 
+
 <p>
-
-Choose your platforms and click Generate Content.
-
+Create a campaign brief and generate platform-ready content.
 </p>
 
-</div>
 
 </div>
 
-</div>
 
 </div>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
 
 </section>
+
 
 </main>
 
 
 
+
+
 <script src="js/dashboard.js"></script>
+
 
 </body>
 
