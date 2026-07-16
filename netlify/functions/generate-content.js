@@ -2,10 +2,20 @@
 =========================================================
 Content Intelligence AI
 AI Content Generation Engine
-Version: 2.0
+Version: 3.0
 
 Purpose:
-Creates platform-native social content.
+Creates platform-native social media campaigns.
+
+Platforms:
+Facebook
+Instagram
+LinkedIn
+Pinterest
+TikTok
+Threads
+X
+YouTube
 =========================================================
 */
 
@@ -28,14 +38,18 @@ exports.handler = async function(event) {
 
         };
 
+
     }
 
 
 
-    try{
+    try {
+
 
 
         const {
+
+            brand,
 
             topic,
 
@@ -45,6 +59,8 @@ exports.handler = async function(event) {
 
             tone,
 
+            contentType,
+
             platforms
 
 
@@ -53,31 +69,53 @@ exports.handler = async function(event) {
 
 
 
+
+
         const prompt = `
+
 
 You are Content Intelligence AI.
 
-You are an expert social media strategist.
+You are an expert social media strategist,
+brand strategist, copywriter and platform growth specialist.
 
-Your task:
 
-Transform one content idea into UNIQUE content for each social platform.
+Your job:
 
-IMPORTANT RULES:
+Create a complete social media campaign from one idea.
 
-- Never create the same content twice.
-- Each platform must feel native.
-- Follow the culture and behaviour of each platform.
-- Do not explain what you are doing.
-- Do not introduce the response.
-- Do not say "Sure", "Here is", "Let me know".
-- Do not use fake URLs.
-- Do not use placeholders like [link].
-- Do not include AI commentary.
+Every platform must receive content specifically designed for that platform.
+
+Never copy the same message between platforms.
+
+Adapt:
+
+- Writing style
+- Length
+- Audience behaviour
+- Engagement style
+- Hashtag strategy
+- Visual direction
+- Call to action
+
+
+
+BRAND:
+
+${brand || "Not provided"}
+
+
+
+CONTENT TYPE:
+
+${contentType}
+
+
 
 CONTENT IDEA:
 
 ${topic}
+
 
 
 AUDIENCE:
@@ -85,14 +123,17 @@ AUDIENCE:
 ${audience}
 
 
+
 GOAL:
 
 ${goal}
 
 
+
 TONE:
 
 ${tone}
+
 
 
 PLATFORMS:
@@ -101,58 +142,84 @@ ${platforms.join(", ")}
 
 
 
-RETURN ONLY THIS STRUCTURE:
+
+
+IMPORTANT RULES:
+
+- Do not say "Here is your content".
+- Do not explain your process.
+- Do not mention AI.
+- Do not use fake URLs.
+- Do not use placeholders.
+- Do not repeat content.
+- Create publish-ready content.
+
+
+
+RETURN EXACTLY THIS FORMAT:
 
 
 
 FACEBOOK
 
 Post:
+
 Write the complete Facebook post.
 
 Visual:
-Describe the recommended image/video.
+
+Describe the image or video.
 
 Hashtags:
-Provide relevant hashtags.
+
+Provide hashtags.
 
 
 
 INSTAGRAM
 
 Caption:
-Write the complete Instagram caption.
+
+Write Instagram caption.
 
 Visual:
-Describe the recommended image/video.
+
+Describe carousel, reel or image.
 
 Hashtags:
-Provide relevant hashtags.
+
+Provide hashtags.
 
 
 
 LINKEDIN
 
 Post:
-Write the complete LinkedIn post.
+
+Write professional LinkedIn content.
 
 Visual:
-Describe professional visual direction.
+
+Describe professional visual.
 
 Hashtags:
-Provide relevant hashtags.
+
+Provide hashtags.
 
 
 
 PINTEREST
 
 Title:
-Create SEO-friendly pin title.
+
+Create SEO-friendly Pinterest title.
 
 Description:
+
 Create Pinterest description.
 
 Keywords:
+
 Provide search keywords.
 
 
@@ -160,55 +227,73 @@ Provide search keywords.
 TIKTOK
 
 Hook:
-Create first 3-second attention hook.
+
+Create first 3 second hook.
 
 Script:
-Create complete short video script.
+
+Create full video script.
 
 Visual:
+
 Describe scenes.
 
 CTA:
-Create call-to-action.
+
+Create call to action.
 
 
 
 THREADS
 
 Post:
+
 Create conversational Threads post.
 
 Hashtags:
-Provide relevant hashtags.
+
+Provide hashtags.
 
 
 
 X
 
 Post:
+
 Create concise X post.
 
 Hashtags:
-Provide relevant hashtags.
+
+Provide hashtags.
 
 
 
 YOUTUBE
 
 Title:
+
 Create video title.
 
 Description:
-Create video description.
+
+Create YouTube description.
 
 Outline:
+
 Create video structure.
 
 
 
-Only return the requested structure.
+
+
+Only return the campaign structure.
+
+
+
+
 
 `;
+
 
 
 
@@ -238,7 +323,6 @@ Only return the requested structure.
                 },
 
 
-
                 body:JSON.stringify({
 
 
@@ -256,7 +340,9 @@ Only return the requested structure.
 
                             content:
 
-                            "You are a professional platform-specific content strategist."
+                            "You are an expert platform-specific content strategist."
+
+
 
                         },
 
@@ -269,26 +355,35 @@ Only return the requested structure.
 
                             content:prompt
 
+
                         }
 
 
                     ],
 
 
-                    temperature:0.7
+
+                    temperature:0.75
 
 
                 })
 
 
+
             }
+
+
 
         );
 
 
 
 
+
+
+
         const data = await response.json();
+
 
 
 
@@ -319,7 +414,9 @@ Only return the requested structure.
             };
 
 
+
         }
+
 
 
 
@@ -356,7 +453,11 @@ Only return the requested structure.
 
 
 
+
+
+
     }
+
 
 
     catch(error){
@@ -379,6 +480,7 @@ Only return the requested structure.
 
 
         };
+
 
 
     }
