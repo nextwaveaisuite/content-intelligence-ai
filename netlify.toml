@@ -12,19 +12,10 @@ node_bundler = "esbuild"
 
 
 
-[[redirects]]
-
-from = "/dashboard"
-
-to = "/dashboard.html"
-
-status = 200
-
-
 
 [[redirects]]
 
-from = "/"
+from = "/*"
 
 to = "/index.html"
 
