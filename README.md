@@ -1,30 +1,95 @@
 # Content Intelligence AI
 
-## AI Platform-Specific Content Creation Engine
+AI-powered platform-specific content generation system.
 
-Content Intelligence AI is a SaaS platform designed to transform one content idea into unique, platform-optimized content for multiple destinations.
+Create one idea and transform it into unique, platform-native content for:
 
-The system is designed around the principle:
+- Facebook
+- Instagram
+- LinkedIn
+- Pinterest
+- TikTok
+- Threads
+- X
+- YouTube
 
-> Create once. Adapt everywhere.
 
----
+## Features
 
-# Current Version
+### AI Content Studio
 
-## MVP Foundation v1.0
+Generate complete campaigns from:
 
-Included:
+- Content idea
+- Audience
+- Goal
+- Tone
+- Content type
+- Brand information
 
-✅ Premium landing page  
-✅ AI Content Studio dashboard interface  
-✅ Platform selection system  
-✅ Content output workspace  
-✅ Pricing page  
-✅ Login page foundation  
-✅ Signup page foundation  
-✅ Netlify deployment structure  
 
----
+### Platform Intelligence
 
-# Project Structure
+Content is adapted for each platform:
+
+Facebook:
+- Community-focused posts
+- Engagement-driven writing
+
+Instagram:
+- Captions
+- Visual direction
+- Hashtag strategy
+
+LinkedIn:
+- Professional brand messaging
+
+Pinterest:
+- SEO titles
+- Search keywords
+
+TikTok:
+- Hooks
+- Video scripts
+- Visual concepts
+
+Threads:
+- Conversational posts
+
+X:
+- Short-form messaging
+
+YouTube:
+- Titles
+- Descriptions
+- Video outlines
+
+
+
+## Tech Stack
+
+Frontend:
+
+- HTML5
+- CSS3
+- JavaScript
+
+
+Hosting:
+
+- Netlify
+
+
+Backend:
+
+- Netlify Functions
+
+
+AI:
+
+- OpenAI API
+
+
+
+## Project Structure
+
